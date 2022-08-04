@@ -1,7 +1,7 @@
 // PROVIDED CODE BELOW (LINES 1 - 80) DO NOT REMOVE
 
 // The store will hold all information needed globally
-let store = {
+const store = {
 	track_id: undefined,
 	player_id: undefined,
 	race_id: undefined,
@@ -84,19 +84,7 @@ async function handleCreateRace() {
 		const race = await createRace(player_id, track_id)
 		// TODO - update the store with the race id
 		// For the API to work properly, the race id should be race id - 1
-		store = {
-			...store,
-			race_id: race.ID - 1
-		}
-
-		// // The race has been created, now start the countdown
-		// // TODO - call the async function runCountdown
-		// runCountdown().then(async () => {
-		// 	// TODO - call the async function startRace
-		// 	await startRace(store.race_id);
-		// 	// TODO - call the async function runRace
-		// 	await runRace(store.race_id);		
-		// });
+		store.race_id = race.ID - 1;
 
 		// The race has been created, now start the countdown
 		// TODO - call the async function runCountdown
@@ -105,17 +93,6 @@ async function handleCreateRace() {
 		await startRace(store.race_id);
 		// TODO - call the async function runRace
 		await runRace(store.race_id);		
-
-		// The race has been created, now start the countdown
-		// TODO - call the async function runCountdown
-		// runCountdown().then(() => {
-		// 	// TODO - call the async function startRace
-		// 	startRace(store.race_id).then(() => {
-		// 		// TODO - call the async function runRace
-		// 		runRace(store.race_id).then(() => {
-		// 		});
-		// 	});
-		// });
 	} catch(e) {
 		console.error("Error on creating race method", e)
 	}
@@ -190,10 +167,7 @@ function handleSelectPodRacer(target) {
 	// add class selected to current target
 	target.classList.add('selected')
 	// TODO - save the selected racer to the store
-	store = {
-		...store,
-		player_id: target.id
-	}
+	store.player_id = target.id
 }
 
 function handleSelectTrack(target) {
@@ -209,10 +183,7 @@ function handleSelectTrack(target) {
 	target.classList.add('selected')
 
 	// TODO - save the selected track id to the store
-	store = {
-		...store,
-		track_id: target.id
-	}
+	store.track_id = target.id;
 }
 
 function handleAccelerate() {
@@ -322,7 +293,7 @@ function resultsView(positions) {
 }
 
 function raceProgress(positions) {
-	let userPlayer = positions.find(e => e.id == store.player_id)
+	const userPlayer = positions.find(e => e.id == store.player_id)
 	userPlayer.driver_name += " (you)"
 
 	positions = positions.sort((a, b) => (a.segment > b.segment) ? -1 : 1)
@@ -336,7 +307,7 @@ function raceProgress(positions) {
 				</td>
 			</tr>
 		`
-	})
+	}).join(' ')
 
 	return `
 		<main>
